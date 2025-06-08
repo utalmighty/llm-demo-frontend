@@ -1,10 +1,12 @@
-import './App.css'
-import InputBar from './components/InputBar'
+import "./App.css";
+import Home from "./components/Home";
 
 function App() {
-  return (<div>
-    <InputBar></InputBar>
-  </div>)
+  return (
+    <div>
+      <Home />
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -4,17 +4,23 @@ export interface ChatProps {
   message: string
   session: string
   query: string
+  documentId: string
+  baseUrl: string
   isUser?: boolean
 }
 
-export default function ChatBubble({ message, query, isUser = false, session }: Readonly<ChatProps>) {
+export default function ChatBubble({ message, query, isUser = false, session, documentId, baseUrl }: Readonly<ChatProps>) {
 
   const [response, setResponse] = useState("");
 
   useEffect(() => {
-    if (!isUser) {      
+    if (!isUser) {
+      let url = `${baseUrl}/session/${session}/chat?query=${query}`;
+      if (documentId) {
+        url = `${baseUrl}/session/${session}/short-term-memory/${documentId}?query=${query}`;
+      }
       console.log("Sending query to SSE:", query);
-      const eventSource = new EventSource(`http://localhost:8080/tldr/api/session/${session}/chat?query=${query}`);
+      const eventSource = new EventSource(url);
       eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.response === "") {

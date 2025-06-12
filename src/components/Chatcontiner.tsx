@@ -1,10 +1,13 @@
-import ChatBubble from "./Chatbubble";
+import ChatBubble, { type ChatProps } from "./Chatbubble";
 
-export default function ChatContainer() {
+export default function ChatContainer(props: { chatArr: ChatProps[] }) {
+    const { chatArr } = props;
+    
     return (
         <div className="px-5 pt-1 overflow-auto h-[calc(100vh-100px)]">
-            <ChatBubble message="Hello, how can I help you? Prefix a text-shadow utility with a breakpoint variant like md: to only apply the utility at medium screen sizes and above:" />
-            <ChatBubble message="Hello, how can I help you?" isUser={true} />
+            {chatArr.map((chat, index) => (
+                <ChatBubble key={index} message={chat.message} query={chat.query} session={chat.session} isUser={chat.isUser} />
+            ))}
         </div>
     );
 }

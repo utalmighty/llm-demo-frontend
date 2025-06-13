@@ -17,7 +17,12 @@ export default function ChatBubble({ message, query, isUser = false, session, do
     if (!isUser) {
       let url = `${baseUrl}/session/${session}/chat?query=${query}`;
       if (documentId) {
-        url = `${baseUrl}/session/${session}/short-term-memory/${documentId}?query=${query}`;
+        if (query.includes("summary") || query.includes("summarize")) {
+          url = `${baseUrl}/session/${session}/summarize/${documentId}`;
+        }
+        else {
+          url = `${baseUrl}/session/${session}/short-term-memory/${documentId}?query=${query}`;
+        }
       }
       console.log("Sending query to SSE:", query);
       const eventSource = new EventSource(url);
@@ -34,9 +39,6 @@ export default function ChatBubble({ message, query, isUser = false, session, do
         console.error("Error in SSE connection:", error);
         eventSource.close();
       };
-      return () => {
-        eventSource.close();
-      }; // TODO remove this in production
     } 
     else {
       setResponse(message);

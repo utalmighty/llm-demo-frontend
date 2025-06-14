@@ -16,13 +16,12 @@ export default function ChatBubble({ message, query, isUser = false, session, do
   useEffect(() => {
     if (!isUser) {
       let url = `${baseUrl}/session/${session}/chat?query=${query}`;
-      if (documentId) {
-        if (query.includes("summary") || query.includes("summarize")) {
-          url = `${baseUrl}/session/${session}/summarize/${documentId}`;
-        }
-        else {
-          url = `${baseUrl}/session/${session}/short-term-memory/${documentId}?query=${query}`;
-        }
+      if (query.startsWith("/")) {
+        const command = query.slice(1).toLowerCase();
+        url = `${baseUrl}/session/${session}/command/${command}?documentId=${documentId}`;
+      }
+      else if (documentId) {
+        url = `${baseUrl}/session/${session}/short-term-memory/${documentId}?query=${query}`;
       }
       console.log("Sending query to SSE:", query);
       const eventSource = new EventSource(url);

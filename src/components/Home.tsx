@@ -41,6 +41,12 @@ export default function Home() {
       setChatArr([...chatArr,
         { message: userInput, query: userInput, isUser: true, session: session, documentId: documentId, baseUrl: baseUrl },
         { message: "", query: userInput, isUser: false, session: session, documentId: documentId, baseUrl: baseUrl }]);
+      if (userInput.startsWith("/")) { 
+        const command = userInput.slice(1).toLowerCase();
+        if (command == "clear") {
+          setDocumentId("");
+        }
+      }
       setUserInput("");
     }
   };
@@ -110,7 +116,13 @@ export default function Home() {
               <Attach />
               </label>
 
-              <Talk />
+              <button
+              type="button"
+              className="flex items-center"
+              aria-label="Talk to LLM"
+              >
+              <Talk baseUrl={baseUrl}/>
+              </button>
             </div>
           </div>
         </div>

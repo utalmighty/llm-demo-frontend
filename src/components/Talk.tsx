@@ -33,21 +33,21 @@ export default function Talk({baseUrl}: {baseUrl: string}) {
         }
         const formData = new FormData();
         formData.append("file", audioBlob);
-        try {
-            axios.post(`http://localhost:8080/tldr/api/session/${session}/short-term-memory`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-                onUploadProgress: () => {
-                    console.log("Uploading");
-                },
-            }).then((response) => {
-                console.log("File uploaded successfully:", response.data);
-                setDocumentId(response.data.response);
-            })
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
+        // try {
+        //     axios.post(`http://localhost:8080/tldr/api/session/${session}/short-term-memory`, formData, {
+        //         headers: {
+        //             "Content-Type": "multipart/form-data",
+        //         },
+        //         onUploadProgress: () => {
+        //             console.log("Uploading");
+        //         },
+        //     }).then((response) => {
+        //         console.log("File uploaded successfully:", response.data);
+        //         setDocumentId(response.data.response);
+        //     })
+        // } catch (error) {
+        //     console.error("Error uploading file:", error);
+        // }
         return;
         
         //
